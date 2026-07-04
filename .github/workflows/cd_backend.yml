@@ -27,3 +27,32 @@ jobs:
 
     - name: Push Docker image to Docker Hub
       run: docker push mdtoshif/todo-app-backend:v1
+
+      ## Deploy to vm 
+    # - name: Deploy to the VM
+    #   run: |
+    #     echo "${{ secrets.SSH_PRIVATE_KEY }}" &> ~/ssh_key
+    #     chmod 700 /home/runner/ssh_key
+    #     ssh -o StrictHostKeyChecking=no -i ~/ssh_key root@52.70.103.65 -t "docker stop user_backend_1 && docker run --name user_backend_1 -d -p 8080:8080 mdtoshif/todo-app-backend-backend:v1"
+
+
+    - name: Deploy to VM
+      run: |
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
+        chmod 600 ~/ssh_key
+
+        ssh -o StrictHostKeyChecking=no \
+        -i ~/ssh_key \
+        ubuntu@52.70.103.65 << 'EOF'
+
+        docker pull mdtoshif/todo-app-backend:v1
+
+        docker stop user_backend || true
+        docker rm user_backend || true
+
+        docker run -d \
+            --name user_backend \
+            -p 8080:8080 \
+            mdtoshif/todo-app-backend:v1
+
+        EOF

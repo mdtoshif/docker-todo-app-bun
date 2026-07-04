@@ -1,7 +1,6 @@
 import express from "express";
 import "dotenv/config";
 
-console.log(process.env.DATABASE_URL);
 import { prismaClient } from "db/client";
 
 const app = express();
