@@ -3,7 +3,7 @@
 ## SSH into our Vm and start the new image 
 
 
-name: Deploy the Backebd
+name: Deploy the Backend
 
 on:
   push:
