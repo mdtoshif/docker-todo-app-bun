@@ -23,7 +23,7 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Build Docker image
-      run: docker build -t mdtoshif/todo-app-backend:v1 .
+      run: docker build -t mdtoshif/todo-app-backend:v1 -f ./docker/Dockerfile.backend .
 
     - name: Push Docker image to Docker Hub
       run: docker push mdtoshif/todo-app-backend:v1
